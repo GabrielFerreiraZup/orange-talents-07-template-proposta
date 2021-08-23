@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/proposta")
@@ -22,6 +23,11 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid PropostaForm propostaForm, UriComponentsBuilder uriComponentsBuilder){
+        //validacao proposta igual
+        Optional<Proposta> optionalProposta = propostaRepository.findByCpfOuCnpj(propostaForm.getCpfOuCnpj());
+        if(optionalProposta.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
         Proposta novaProposta = propostaForm.converter();
         propostaRepository.save(novaProposta);
         URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(novaProposta.getId()).toUri();
