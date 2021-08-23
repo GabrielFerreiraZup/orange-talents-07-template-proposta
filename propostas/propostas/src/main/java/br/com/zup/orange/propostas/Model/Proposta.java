@@ -23,6 +23,8 @@ public class Proposta {
     @NotNull
     private Double salario;
 
+    private String restricao;
+
     public Long getId() {
         return id;
     }
@@ -46,6 +48,16 @@ public class Proposta {
     public Double getSalario() {
         return salario;
     }
+
+
+    public void setRestricao(String restricao) {
+        this.restricao = restricao;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Deprecated
     public Proposta() {
     }
