@@ -4,7 +4,7 @@ import br.com.zup.orange.propostas.Model.DTO.PropostaForm;
 import br.com.zup.orange.propostas.Model.DTO.SolicitacaoDto;
 import br.com.zup.orange.propostas.Model.DTO.SolicitacaoForm;
 import br.com.zup.orange.propostas.Model.Proposta;
-import br.com.zup.orange.propostas.feign.SolicitacaoEndpoitn;
+import br.com.zup.orange.propostas.feign.SolicitacaoEndpoint;
 import br.com.zup.orange.propostas.repository.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class PropostaController {
     private PropostaRepository propostaRepository;
 
     @Autowired
-    private SolicitacaoEndpoitn solicitacaoEndpoitn;
+    private SolicitacaoEndpoint solicitacaoEndpoint;
 
     @Autowired
     private EntityManager em;
@@ -69,7 +69,7 @@ public class PropostaController {
         System.out.println(response.getResultadoSolicitacao());
         */
         SolicitacaoForm solicitacaoForm = new SolicitacaoForm(novaProposta.getCpfOuCnpj(),novaProposta.getNome(),novaProposta.getId().toString());
-        SolicitacaoDto response = solicitacaoEndpoitn.getSolicitacao(solicitacaoForm);
+        SolicitacaoDto response = solicitacaoEndpoint.getSolicitacao(solicitacaoForm);
 
         System.out.println(response.getResultadoSolicitacao());
         novaProposta.setRestricao(response.getResultadoSolicitacao());

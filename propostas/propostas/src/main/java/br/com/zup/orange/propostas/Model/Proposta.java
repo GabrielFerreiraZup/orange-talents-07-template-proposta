@@ -25,6 +25,8 @@ public class Proposta {
 
     private String restricao;
 
+    private String idCartao;
+
     public Long getId() {
         return id;
     }
@@ -49,9 +51,16 @@ public class Proposta {
         return salario;
     }
 
+    public String getIdCartao() {
+        return idCartao;
+    }
 
     public void setRestricao(String restricao) {
         this.restricao = restricao;
+    }
+
+    public void setIdCartao(String idCartao) {
+        this.idCartao = idCartao;
     }
 
     public void setId(Long id) {
