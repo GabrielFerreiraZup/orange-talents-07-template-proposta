@@ -55,6 +55,10 @@ public class Proposta {
         return idCartao;
     }
 
+    public String getRestricao() {
+        return restricao;
+    }
+
     public void setRestricao(String restricao) {
         this.restricao = restricao;
     }

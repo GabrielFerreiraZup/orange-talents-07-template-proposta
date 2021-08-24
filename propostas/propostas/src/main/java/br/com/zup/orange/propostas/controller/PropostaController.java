@@ -1,5 +1,6 @@
 package br.com.zup.orange.propostas.controller;
 
+import br.com.zup.orange.propostas.Model.DTO.PropostaDto;
 import br.com.zup.orange.propostas.Model.DTO.PropostaForm;
 import br.com.zup.orange.propostas.Model.DTO.SolicitacaoDto;
 import br.com.zup.orange.propostas.Model.DTO.SolicitacaoForm;
@@ -36,48 +37,28 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid PropostaForm propostaForm, UriComponentsBuilder uriComponentsBuilder){
-
-
-
         //validacao proposta igual
         Optional<Proposta> optionalProposta = propostaRepository.findByCpfOuCnpj(propostaForm.getCpfOuCnpj());
         if(optionalProposta.isPresent()){
             return ResponseEntity.unprocessableEntity().build();
         }
-
-
-
         Proposta novaProposta = propostaForm.converter();
-
-        /*teste do fetch
-        System.out.println(novaProposta.getCpfOuCnpj());
-        System.out.println(novaProposta.getNome());
-        System.out.println(novaProposta.getId());
-        SolicitacaoForm solicitacaoForm = new SolicitacaoForm(novaProposta.getCpfOuCnpj(),novaProposta.getNome(),novaProposta.getId().toString());
-
-        SolicitacaoDto response = client.post().uri(urlApiSolicitacao).syncBody(solicitacaoForm).retrieve().bodyToMono(SolicitacaoDto.class).block();
-        System.out.println(response.getResultadoSolicitacao());
-        novaProposta.setRestricao(response.getResultadoSolicitacao());
-        */
-
         em.persist(novaProposta);
-        /*
-        //Solicitacao Da Api
-        SolicitacaoForm solicitacaoForm = new SolicitacaoForm(novaProposta.getCpfOuCnpj(),novaProposta.getNome(),novaProposta.getId().toString());
-
-        SolicitacaoDto response = client.post().uri(urlApiSolicitacao).syncBody(solicitacaoForm).retrieve().bodyToMono(SolicitacaoDto.class).block();
-        System.out.println(response.getResultadoSolicitacao());
-        */
         SolicitacaoForm solicitacaoForm = new SolicitacaoForm(novaProposta.getCpfOuCnpj(),novaProposta.getNome(),novaProposta.getId().toString());
         SolicitacaoDto response = solicitacaoEndpoint.getSolicitacao(solicitacaoForm);
-
         System.out.println(response.getResultadoSolicitacao());
         novaProposta.setRestricao(response.getResultadoSolicitacao());
-
-
-
         em.persist(novaProposta);
         URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(novaProposta.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PropostaDto> informacoesProposta(@PathVariable Long id){
+        Optional<Proposta> propostaOpt = propostaRepository.findById(id);
+        if (propostaOpt.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new PropostaDto(propostaOpt.get()));
     }
 }
