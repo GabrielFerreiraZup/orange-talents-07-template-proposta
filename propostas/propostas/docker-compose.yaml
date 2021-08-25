@@ -45,6 +45,16 @@ services:
       POSTGRES_PASSWORD: SuperSenha
       POSTGRES_DB: propostas
 
+  proposta-webservice:
+    image: gabriel/proposta
+    ports:
+      - 8081:8080
+    environment:
+      URL_DATABASE: jdbc:postgresql://postgres-proposta:5432/propostas
+      DB_USER: proposta
+      DB_PASSWORD: SuperSenha
+    depends_on:
+    - postgres-proposta
 
 
 
