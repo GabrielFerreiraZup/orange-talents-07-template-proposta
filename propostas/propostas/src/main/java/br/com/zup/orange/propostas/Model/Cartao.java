@@ -1,5 +1,7 @@
 package br.com.zup.orange.propostas.Model;
 
+import br.com.zup.orange.propostas.enums.BloqueioEnum;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +19,9 @@ public class Cartao {
     //talvez refatorar pra receber proposta
     private String idProposta;
 
-    private boolean bloqueado = false;
-
+    //private boolean bloqueado = false;
+    //refatorar com bloqueio como enum
+    private BloqueioEnum bloqueio;
     private LocalDateTime horaBloqueio;
 
     private String ipCliente;
@@ -38,12 +41,12 @@ public class Cartao {
         return idProposta;
     }
 
-    public boolean isBloqueado() {
-        return bloqueado;
+    public BloqueioEnum getBloqueio() {
+        return bloqueio;
     }
 
-    public void setBloqueado(boolean bloqueado) {
-        this.bloqueado = bloqueado;
+    public void setBloqueio(BloqueioEnum bloqueio) {
+        this.bloqueio = bloqueio;
     }
 
     public LocalDateTime getHoraBloqueio() {
@@ -77,5 +80,10 @@ public class Cartao {
     public Cartao(String idInterno, String idProposta) {
         this.idInterno = idInterno;
         this.idProposta = idProposta;
+        this.bloqueio = BloqueioEnum.NAO_BLOQUEADO;
     }
+
+
+
 }
+

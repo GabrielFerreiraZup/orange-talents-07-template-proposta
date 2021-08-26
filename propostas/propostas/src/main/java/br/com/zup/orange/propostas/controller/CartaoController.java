@@ -2,6 +2,7 @@ package br.com.zup.orange.propostas.controller;
 
 
 import br.com.zup.orange.propostas.Model.Cartao;
+import br.com.zup.orange.propostas.enums.BloqueioEnum;
 import br.com.zup.orange.propostas.repository.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class CartaoController {
     public ResponseEntity bloquearCartao(@RequestHeader Map<String, String> mapHeader, HttpServletRequest request, @PathVariable Long id){
         System.out.println(mapHeader.get("user-agent"));
         System.out.println(request.getRemoteAddr());
-
+        //Poder de refatorar -> colocar pegando o ip do x-forward-m e caso vazio retornar 400
         //talvez em refatorcao fazer isso em service
         if(id == null) return ResponseEntity.badRequest().build();
         Optional<Cartao> cartaoOpt = cartaoRepository.findById(id);
         if(cartaoOpt.isEmpty()) return ResponseEntity.notFound().build();
-        if(cartaoOpt.get().isBloqueado()) return ResponseEntity.unprocessableEntity().build();
-        cartaoOpt.get().setBloqueado(true);
+        if(cartaoOpt.get().getBloqueio() == BloqueioEnum.BLOQUEADO) return ResponseEntity.unprocessableEntity().build();
+        cartaoOpt.get().setBloqueio(BloqueioEnum.BLOQUEADO);
         cartaoOpt.get().setHoraBloqueio(LocalDateTime.now());
         cartaoOpt.get().setIpCliente(request.getRemoteAddr());
         cartaoOpt.get().setUserAgentCliente(mapHeader.get("user-agent"));
