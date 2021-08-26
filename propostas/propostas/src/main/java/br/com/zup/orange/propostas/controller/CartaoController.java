@@ -31,7 +31,7 @@ public class CartaoController {
         Optional<Cartao> cartaoOpt = cartaoRepository.findById(id);
         if(cartaoOpt.isEmpty()) return ResponseEntity.notFound().build();
         if(cartaoOpt.get().getBloqueio() == BloqueioEnum.BLOQUEADO) return ResponseEntity.unprocessableEntity().build();
-        cartaoOpt.get().setBloqueio(BloqueioEnum.BLOQUEADO);
+        cartaoOpt.get().setBloqueio(BloqueioEnum.PENDENTE_VALIDACAO);
         cartaoOpt.get().setHoraBloqueio(LocalDateTime.now());
         cartaoOpt.get().setIpCliente(request.getRemoteAddr());
         cartaoOpt.get().setUserAgentCliente(mapHeader.get("user-agent"));

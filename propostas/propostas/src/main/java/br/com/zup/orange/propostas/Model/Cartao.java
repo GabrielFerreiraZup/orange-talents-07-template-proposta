@@ -81,6 +81,7 @@ public class Cartao {
         this.idInterno = idInterno;
         this.idProposta = idProposta;
         this.bloqueio = BloqueioEnum.NAO_BLOQUEADO;
+
     }
 
 
