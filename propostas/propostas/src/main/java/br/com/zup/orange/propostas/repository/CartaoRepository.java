@@ -4,10 +4,11 @@ import br.com.zup.orange.propostas.Model.Cartao;
 import br.com.zup.orange.propostas.enums.BloqueioEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface CartaoRepository extends JpaRepository<Cartao,Long> {
 
     Optional<Cartao> findByIdInterno(String id);

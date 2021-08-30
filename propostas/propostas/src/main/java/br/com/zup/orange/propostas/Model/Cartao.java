@@ -2,10 +2,7 @@ package br.com.zup.orange.propostas.Model;
 
 import br.com.zup.orange.propostas.enums.BloqueioEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,6 +24,9 @@ public class Cartao {
     private String ipCliente;
 
     private String userAgentCliente;
+
+    @ManyToOne
+    private Carteira carteiraPayPall;
 
 
     public Long getId() {
@@ -71,6 +71,14 @@ public class Cartao {
 
     public void setUserAgentCliente(String userAgentCliente) {
         this.userAgentCliente = userAgentCliente;
+    }
+
+    public void setCarteiraPayPall(Carteira carteiraPayPall) {
+        this.carteiraPayPall = carteiraPayPall;
+    }
+
+    public Carteira getCarteiraPayPall() {
+        return carteiraPayPall;
     }
 
     @Deprecated
