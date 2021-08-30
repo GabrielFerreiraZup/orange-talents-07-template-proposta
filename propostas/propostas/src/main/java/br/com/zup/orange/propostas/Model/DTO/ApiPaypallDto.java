@@ -1,14 +1,14 @@
 package br.com.zup.orange.propostas.Model.DTO;
 
-import br.com.zup.orange.propostas.enums.CarteiraEnum;
+import br.com.zup.orange.propostas.enums.StatusCarteiraEnum;
 
 public class ApiPaypallDto {
 
-    private CarteiraEnum resultado;
+    private StatusCarteiraEnum resultado;
 
     private String id;
 
-    public CarteiraEnum getResultado() {
+    public StatusCarteiraEnum getResultado() {
         return resultado;
     }
 
@@ -16,7 +16,7 @@ public class ApiPaypallDto {
         return id;
     }
 
-    public ApiPaypallDto(CarteiraEnum resultado, String id) {
+    public ApiPaypallDto(StatusCarteiraEnum resultado, String id) {
         this.resultado = resultado;
         this.id = id;
     }

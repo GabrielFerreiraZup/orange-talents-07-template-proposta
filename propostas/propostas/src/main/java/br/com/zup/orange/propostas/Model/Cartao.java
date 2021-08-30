@@ -4,6 +4,8 @@ import br.com.zup.orange.propostas.enums.BloqueioEnum;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
@@ -25,8 +27,8 @@ public class Cartao {
 
     private String userAgentCliente;
 
-    @ManyToOne
-    private Carteira carteiraPayPall;
+    @OneToMany
+    private List<Carteira> carteiras = new ArrayList<>();
 
 
     public Long getId() {
@@ -73,12 +75,12 @@ public class Cartao {
         this.userAgentCliente = userAgentCliente;
     }
 
-    public void setCarteiraPayPall(Carteira carteiraPayPall) {
-        this.carteiraPayPall = carteiraPayPall;
+    public List<Carteira> getCarteiras() {
+        return carteiras;
     }
 
-    public Carteira getCarteiraPayPall() {
-        return carteiraPayPall;
+    public void setCarteiras(List<Carteira> carteiras) {
+        this.carteiras = carteiras;
     }
 
     @Deprecated

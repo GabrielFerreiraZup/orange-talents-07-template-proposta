@@ -1,6 +1,6 @@
 package br.com.zup.orange.propostas.enums;
 
-public enum CarteiraEnum {
+public enum StatusCarteiraEnum {
 
     ASSOCIADA,
     NAO_ASSOCIADA

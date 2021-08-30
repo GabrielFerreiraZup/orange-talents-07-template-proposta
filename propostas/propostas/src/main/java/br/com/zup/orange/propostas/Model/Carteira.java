@@ -1,7 +1,8 @@
 package br.com.zup.orange.propostas.Model;
 
 
-import br.com.zup.orange.propostas.enums.CarteiraEnum;
+import br.com.zup.orange.propostas.enums.NomeCarteiraEnum;
+import br.com.zup.orange.propostas.enums.StatusCarteiraEnum;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,9 +19,9 @@ public class Carteira {
     @NotNull
     private String email;
 
-    private String carteira;
+    private NomeCarteiraEnum carteira;
 
-    private CarteiraEnum resultado;
+    private StatusCarteiraEnum resultado;
 
     private String idPaypal;
 
@@ -32,11 +33,11 @@ public class Carteira {
         return email;
     }
 
-    public String getCarteira() {
+    public NomeCarteiraEnum getCarteira() {
         return carteira;
     }
 
-    public CarteiraEnum getResultado() {
+    public StatusCarteiraEnum getResultado() {
         return resultado;
     }
 
@@ -47,7 +48,7 @@ public class Carteira {
     public Carteira() {
     }
 
-    public Carteira(String email, String carteira, CarteiraEnum resultado, String idPaypal) {
+    public Carteira(String email, NomeCarteiraEnum carteira, StatusCarteiraEnum resultado, String idPaypal) {
         this.email = email;
         this.carteira = carteira;
         this.resultado = resultado;
