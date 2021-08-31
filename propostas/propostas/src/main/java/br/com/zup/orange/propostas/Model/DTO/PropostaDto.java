@@ -1,6 +1,7 @@
 package br.com.zup.orange.propostas.Model.DTO;
 
 import br.com.zup.orange.propostas.Model.Proposta;
+import org.jasypt.util.text.StrongTextEncryptor;
 
 public class PropostaDto {
 
@@ -57,7 +58,9 @@ public class PropostaDto {
     }
 
     public PropostaDto(Proposta proposta){
-        this.cpfOuCnpj = proposta.getCpfOuCnpj();
+        StrongTextEncryptor encryptor = new StrongTextEncryptor();
+        encryptor.setPassword("senhaDoProperties");
+        this.cpfOuCnpj = encryptor.decrypt(proposta.getCpfOuCnpjCript());
         this.email = proposta.getEmail();
         this.nome = proposta.getNome();
         this.endereco = proposta.getEndereco();

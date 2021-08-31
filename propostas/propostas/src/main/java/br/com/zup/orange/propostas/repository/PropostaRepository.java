@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface PropostaRepository extends JpaRepository<Proposta,Long> {
-    Optional<Proposta> findByCpfOuCnpj(String cpfOuCnpj);
+    Optional<Proposta> findByCpfOuCnpjHash(String cpfOuCnpjHash);
 
     @Query(value = "Select p from Proposta p where p.idCartao = null" )
     List<Proposta> getPropostaSemCartao();

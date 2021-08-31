@@ -1,5 +1,9 @@
 package br.com.zup.orange.propostas.Model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.jasypt.util.text.StrongTextEncryptor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +17,9 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    private String cpfOuCnpj;
+    private String cpfOuCnpjCript;
+    @NotBlank
+    private String cpfOuCnpjHash;
     @NotBlank
     private String email;
     @NotBlank
@@ -31,8 +37,12 @@ public class Proposta {
         return id;
     }
 
-    public String getCpfOuCnpj() {
-        return cpfOuCnpj;
+    public String getCpfOuCnpjCript() {
+        return cpfOuCnpjCript;
+    }
+
+    public String getCpfOuCnpjHash() {
+        return cpfOuCnpjHash;
     }
 
     public String getEmail() {
@@ -76,7 +86,10 @@ public class Proposta {
     }
 
     public Proposta(String cpfOuCnpj, String email, String nome, String endereco, Double salario) {
-        this.cpfOuCnpj = cpfOuCnpj;
+        StrongTextEncryptor encriptador = new StrongTextEncryptor();
+        encriptador.setPassword("senhaDoProperties");
+        this.cpfOuCnpjCript = encriptador.encrypt(cpfOuCnpj);
+        this.cpfOuCnpjHash = DigestUtils.sha256Hex(cpfOuCnpj);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;

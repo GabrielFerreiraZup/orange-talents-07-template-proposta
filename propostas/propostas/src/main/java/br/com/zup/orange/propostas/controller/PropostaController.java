@@ -7,8 +7,10 @@ import br.com.zup.orange.propostas.Model.DTO.SolicitacaoForm;
 import br.com.zup.orange.propostas.Model.Proposta;
 import br.com.zup.orange.propostas.feign.SolicitacaoEndpoint;
 import br.com.zup.orange.propostas.repository.PropostaRepository;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -38,13 +40,14 @@ public class PropostaController {
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid PropostaForm propostaForm, UriComponentsBuilder uriComponentsBuilder){
         //validacao proposta igual
-        Optional<Proposta> optionalProposta = propostaRepository.findByCpfOuCnpj(propostaForm.getCpfOuCnpj());
+        String hashCpfouCnpj = DigestUtils.sha256Hex(propostaForm.getCpfOuCnpj());
+        Optional<Proposta> optionalProposta = propostaRepository.findByCpfOuCnpjHash(hashCpfouCnpj);
         if(optionalProposta.isPresent()){
             return ResponseEntity.unprocessableEntity().build();
         }
         Proposta novaProposta = propostaForm.converter();
         em.persist(novaProposta);
-        SolicitacaoForm solicitacaoForm = new SolicitacaoForm(novaProposta.getCpfOuCnpj(),novaProposta.getNome(),novaProposta.getId().toString());
+        SolicitacaoForm solicitacaoForm = new SolicitacaoForm(propostaForm.getCpfOuCnpj(),propostaForm.getNome(),novaProposta.getId().toString());
         SolicitacaoDto response = solicitacaoEndpoint.getSolicitacao(solicitacaoForm);
         System.out.println(response.getResultadoSolicitacao());
         novaProposta.setRestricao(response.getResultadoSolicitacao());
