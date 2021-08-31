@@ -18,6 +18,7 @@ public class KeycloackServerConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers(HttpMethod.GET, "/proposta/**").hasAuthority("SCOPE_proposta-escopo")
                         .antMatchers(HttpMethod.POST, "/proposta").hasAuthority("SCOPE_proposta-escopo")
                         .antMatchers(HttpMethod.POST, "/biometria/**").hasAuthority("SCOPE_proposta-escopo")
+                        .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .anyRequest().authenticated()
         ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
